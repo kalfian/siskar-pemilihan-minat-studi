@@ -20,8 +20,6 @@ class PivotTableStudyFact extends Migration
 
             $table->foreign('study_id')->references('id')->on('studies')->onDelete('cascade');
             $table->foreign('fact_id')->references('id')->on('facts')->onDelete('cascade');
-
-            $table->timestamps();
         });
     }
 

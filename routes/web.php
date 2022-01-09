@@ -126,4 +126,16 @@ Route::group(['middleware' => 'auth'], function () {
             'as' => 'admin.study.destroy'
         ]);
     });
+
+    Route::group(['prefix' => 'relation'], function () {
+        Route::get('/',[
+            'uses' => 'ManageRelationController@index',
+            'as' => 'admin.relation.index'
+        ]);
+
+        Route::put('/{study}',[
+            'uses' => 'ManageRelationController@update',
+            'as' => 'admin.relation.update'
+        ]);
+    });
 });

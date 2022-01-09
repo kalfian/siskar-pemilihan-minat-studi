@@ -90,6 +90,10 @@
     <!-- Plugins and scripts required by this view-->
     <script src="{{URL::to('/js/colors.js')}}"></script>
     <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();   
+        $('[data-toggle="popover"]').popover();
+    });
     $(".logout-btn").on('click', function(e){
         e.preventDefault();
         Swal.fire({
@@ -107,6 +111,7 @@
             }
         })
     });
+    
     </script>
     @yield('script')
 </body>

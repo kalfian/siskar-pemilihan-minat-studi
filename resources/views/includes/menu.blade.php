@@ -19,6 +19,10 @@
                 </li>
             </ul>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.relation.index') }}">
+                <i class="nav-icon icon-star"></i> Relasi</a>
+        </li>
         <li class="divider"></li>
         <li class="nav-title">Settings</li>
         <li class="nav-item nav-dropdown">
