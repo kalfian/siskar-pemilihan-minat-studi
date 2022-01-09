@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fact;
+use App\Models\Study;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class FactController extends Controller
+class StudyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +15,10 @@ class FactController extends Controller
      */
     public function data()
     {
-        return DataTables::eloquent(Fact::query())
-            ->addColumn('action', function(Fact $fact) {
+        return DataTables::eloquent(Study::query())
+            ->addColumn('action', function(Study $study) {
                 $button = '
-                <form action="'.route('admin.fact.destroy', $fact->id).'" method="POST">
+                <form action="'.route('admin.study.destroy', $study->id).'" method="POST">
                     '.csrf_field().'
                     '.method_field('delete').'
                     <button onclick="return confirm(\'yakin menghapus data?\')" type="Submit"
@@ -34,11 +34,8 @@ class FactController extends Controller
 
     public function index()
     {
-        $facts = Fact::all();
         // print_r($permissions);
-        return view('fact.index',[
-            'facts' => $facts
-        ]);
+        return view('study.index');
     }
 
     /**
@@ -53,28 +50,26 @@ class FactController extends Controller
             'name' => 'required',
         );
         $message = array(
-            'name.required' => 'Fakta tidak boleh kosong',
+            'name.required' => 'Program Studi tidak boleh kosong',
         );
 
         $this->validate($request, $rules, $message);
 
-        $role = Fact::create(['name' => $request->name]);
+        $role = Study::create(['name' => $request->name]);
 
-        return redirect()->back()->with('success', 'Berhasil menambah fakta');
+        return redirect()->back()->with('success', 'Berhasil menambah program studi');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Fact  $Fact
+     * @param  \App\Models\Study  $study
      * @return \Illuminate\Http\Response
      */
-    public function edit(Fact $fact)
+    public function edit(Studi $study)
     {
-        $permissions = Permission::all();
-        // print_r($permissions);
-        return view('fact.edit',[
-            'fact' => $fact,
+        return view('study.edit',[
+            'study' => $study,
         ]);
     }
 
@@ -82,10 +77,10 @@ class FactController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\fact  $fact
+     * @param  \App\Models\Study  $study
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Fact $fact)
+    public function update(Request $request, Study $study)
     {
         $rules = array(
             'name' => 'required'
@@ -96,22 +91,22 @@ class FactController extends Controller
 
         $this->validate($request, $rules, $message);
 
-        $fact->name = $request->name;
-        $fact->save();
+        $study->name = $request->name;
+        $study->save();
 
-        return redirect()->route('admin.fact.index')->with('success', 'Berhasil mengubah fakta');
+        return redirect()->route('admin.study.index')->with('success', 'Berhasil mengubah program studi');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\fact  $fact
+     * @param  \App\Models\fact  $study
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Fact $fact)
+    public function destroy(Study $study)
     {
-        $fact->delete();
+        $study->delete();
 
-        return redirect()->back()->with('success', 'Berhasil menghapus Fakta');
+        return redirect()->back()->with('success', 'Berhasil menghapus program studi');
     }
 }

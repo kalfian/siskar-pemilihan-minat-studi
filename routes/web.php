@@ -79,19 +79,51 @@ Route::group(['middleware' => 'auth'], function () {
             'as' => 'admin.fact.store'
         ]);
         
-        Route::get('/{id}/edit',[
+        Route::get('/{fact}/edit',[
             'uses' => 'FactController@edit',
             'as' => 'admin.fact.edit'
         ]);
 
-        Route::put('/{id}/edit',[
+        Route::put('/{fact}/edit',[
             'uses' => 'FactController@update',
             'as' => 'admin.fact.update'
         ]);
 
-        Route::delete('/{id}',[
+        Route::delete('/{fact}',[
             'uses' => 'FactController@destroy',
             'as' => 'admin.fact.destroy'
+        ]);
+    });
+
+    Route::group(['prefix' => 'study'], function () {
+        Route::get('/',[
+            'uses' => 'StudyController@index',
+            'as' => 'admin.study.index'
+        ]);
+
+        Route::get('/json',[
+            'uses' => 'StudyController@data',
+            'as' => 'admin.study.index.json'
+        ]);
+
+        Route::post('/',[
+            'uses' => 'StudyController@store',
+            'as' => 'admin.study.store'
+        ]);
+        
+        Route::get('/{study}/edit',[
+            'uses' => 'StudyController@edit',
+            'as' => 'admin.study.edit'
+        ]);
+
+        Route::put('/{study}/edit',[
+            'uses' => 'StudyController@update',
+            'as' => 'admin.study.update'
+        ]);
+
+        Route::delete('/{study}',[
+            'uses' => 'StudyController@destroy',
+            'as' => 'admin.study.destroy'
         ]);
     });
 });

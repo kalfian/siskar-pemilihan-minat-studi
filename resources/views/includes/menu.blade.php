@@ -14,7 +14,7 @@
                         <i class="nav-icon icon-star"></i> List Fakta</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.fact.index') }}">
+                    <a class="nav-link" href="{{ route('admin.study.index') }}">
                         <i class="nav-icon icon-star"></i> List Program Studi</a>
                 </li>
             </ul>
