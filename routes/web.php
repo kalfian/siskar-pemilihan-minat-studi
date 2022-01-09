@@ -63,5 +63,35 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
     });
 
+    Route::group(['prefix' => 'fact'], function () {
+        Route::get('/',[
+            'uses' => 'FactController@index',
+            'as' => 'admin.fact.index'
+        ]);
 
+        Route::get('/json',[
+            'uses' => 'FactController@data',
+            'as' => 'admin.fact.index.json'
+        ]);
+
+        Route::post('/',[
+            'uses' => 'FactController@store',
+            'as' => 'admin.fact.store'
+        ]);
+        
+        Route::get('/{id}/edit',[
+            'uses' => 'FactController@edit',
+            'as' => 'admin.fact.edit'
+        ]);
+
+        Route::put('/{id}/edit',[
+            'uses' => 'FactController@update',
+            'as' => 'admin.fact.update'
+        ]);
+
+        Route::delete('/{id}',[
+            'uses' => 'FactController@destroy',
+            'as' => 'admin.fact.destroy'
+        ]);
+    });
 });
