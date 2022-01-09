@@ -17,4 +17,9 @@ class Fact extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function studies()
+    {
+        return $this->belongsToMany(Study::class, 'study_fact');
+    }
 }
