@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Participant;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ParticipantController extends Controller
 {
@@ -14,72 +15,48 @@ class ParticipantController extends Controller
      */
     public function index()
     {
-        //
+        return view('participant.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function data() {
+        return DataTables::eloquent(Participant::query())
+            ->addColumn('str_status', function(Participant $participant) {
+                if ($participant->status == true) {
+                    return "Sesuai";
+                }
+
+                return "Tidak Sesuai";
+            })
+            ->addColumn('action', function(Participant $participant) {
+                $button = '
+                <form action="'.route('admin.participant.sync', $participant->id).'" method="POST">
+                    '.csrf_field().'
+                    <button type="Submit"
+                        class="btn btn-block btn-outline-info btn-sm mb-2"><i class="fa fa-refresh"></i> Sinkronisasi</button>
+                </form>';
+
+                $button .= '<a href="'.route('admin.participant.detail', $participant->id).'"
+                class="btn btn-block btn-outline-primary btn-sm"><i class="fa fa-search"></i>
+                Detail</a>';
+                
+
+                return $button;
+            })
+            ->toJson();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function detail(Participant $participant) {
+        return view('participant.detail', compact('participant'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Participant  $participant
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Participant $participant)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Participant  $participant
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Participant $participant)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Participant  $participant
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Participant $participant)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Participant  $participant
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Participant $participant)
-    {
-        //
+    public function sync(Participant $participant, Request $request) {
+        $result = $this->manageFact($participant->facts()->allRelatedIds()->toArray());
+        $participant->result = $result->name ?? "Data tidak ada yang sesuai";
+        $participant->status = true;
+        if(is_null($result)) {
+            $participant->status = false;
+        }
+        $participant->save();
+        return redirect()->back()->with('success', 'Berhasil sinkronisasi  '. $participant->name);
     }
 }

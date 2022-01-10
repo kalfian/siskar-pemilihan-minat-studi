@@ -17,7 +17,7 @@ Auth::routes(['register' => false, 'reset' => false, 'request' => false]);
 
 Route::get('/', [
     'uses' => 'LandingPageController@index',
-    'as' => 'home'
+    'as' => 'fe'
 ]);
 
 Route::post('/consult', [
@@ -36,6 +36,11 @@ Route::get('/consult/{participant}', [
 ]);
 
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
+
+    Route::get('/', [
+        'uses' => 'DashboardController@index',
+        'as' => 'home'
+    ]);
 
     Route::get('/edit-profile', [
         'uses' => 'DashboardController@edit',
@@ -152,6 +157,28 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
         Route::put('/{study}',[
             'uses' => 'ManageRelationController@update',
             'as' => 'admin.relation.update'
+        ]);
+    });
+
+    Route::group(['prefix' => 'participant'], function () {
+        Route::get('/',[
+            'uses' => 'ParticipantController@index',
+            'as' => 'admin.participant.index'
+        ]);
+        Route::get('/json',[
+            'uses' => 'ParticipantController@data',
+            'as' => 'admin.participant.index.json'
+        ]);
+        
+
+        Route::get('/{participant}',[
+            'uses' => 'ParticipantController@detail',
+            'as' => 'admin.participant.detail'
+        ]);
+
+        Route::post('/sync/{participant}',[
+            'uses' => 'ParticipantController@sync',
+            'as' => 'admin.participant.sync'
         ]);
     });
 });
