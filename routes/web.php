@@ -15,11 +15,22 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false, 'reset' => false, 'request' => false]);
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', [
-        'uses' => 'DashboardController@index',
-        'as' => 'home'
-    ]);
+Route::get('/', [
+    'uses' => 'LandingPageController@index',
+    'as' => 'home'
+]);
+
+Route::post('/consult', [
+    'uses' => 'LandingPageController@consult',
+    'as' => 'consult'
+]);
+
+Route::post('/consult/store', [
+    'uses' => 'LandingPageController@store',
+    'as' => 'consult.store'
+]);
+
+Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
 
     Route::get('/edit-profile', [
         'uses' => 'DashboardController@edit',
