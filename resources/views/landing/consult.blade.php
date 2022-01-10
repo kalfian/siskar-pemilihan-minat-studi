@@ -24,13 +24,14 @@
                 <br/>
             </div>
         </div>
-        <form action="{{ route('consult.store') }}" method="POST">
         <div class="row">
             <div class="col-md-12">
                 <h5>Data Fakta</h5>
                 <p>Isi sesuai yang anda rasakan, agar sistem kami bisa mendeteksi sebaik mungkin</p>
             </div>
             <div class="col-md-12">
+            <form action="{{ route('consult.store') }}" method="POST">
+            @csrf
                 <table class="table">
                     <thead>
                         <tr>
@@ -60,9 +61,9 @@
                 </br>
                 </br>
                 </br>
+            </form>
             </div>
         </div>
-        </form>
     </div>
 </section>
 @endsection

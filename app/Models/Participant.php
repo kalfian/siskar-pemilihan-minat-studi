@@ -15,4 +15,9 @@ class Participant extends Model
         'status',
         'result'
     ];
+
+    public function facts()
+    {
+        return $this->belongsToMany(Fact::class, 'participant_fact');
+    }
 }

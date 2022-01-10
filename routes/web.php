@@ -30,6 +30,11 @@ Route::post('/consult/store', [
     'as' => 'consult.store'
 ]);
 
+Route::get('/consult/{participant}', [
+    'uses' => 'LandingPageController@result',
+    'as' => 'consult.result'
+]);
+
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
 
     Route::get('/edit-profile', [

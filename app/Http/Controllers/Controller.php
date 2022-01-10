@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Image;
 use File;
+use DB;
 
 class Controller extends BaseController
 {
@@ -47,5 +48,24 @@ class Controller extends BaseController
         $tmpThumbnailFilePath   = public_path().'/uploads/thumbnails/';
         File::delete($tmpThumbnailFilePath.$name);
         File::delete($tmpFilePath.$name);
+    }
+
+    public function manageFact($fact) {
+        $arrayString = '[';
+        $arr = "";
+        foreach($fact as $f) {
+            $arr .= ",$f";
+        }
+        $arrayString .= ltrim($arr, $arr[0]);
+        $arrayString .= ']';
+
+        $logical = DB::table("studies as s")
+            ->select('*', DB::raw('CONCAT("[", GROUP_CONCAT(sf.fact_id ORDER BY sf.fact_id ASC), "]") as rules'))
+            ->join('study_fact as sf', 'sf.study_id', '=', 's.id')
+            ->groupBy('s.id')
+            ->having('rules', '=', $arrayString)
+            ->first();
+
+        return $logical;
     }
 }
