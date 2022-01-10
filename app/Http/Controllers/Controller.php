@@ -53,6 +53,7 @@ class Controller extends BaseController
     public function manageFact($fact) {
         $arrayString = '[';
         $arr = "";
+        sort($fact, SORT_NUMERIC);
         foreach($fact as $f) {
             $arr .= ",$f";
         }
