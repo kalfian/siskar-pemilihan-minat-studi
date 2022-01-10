@@ -40,8 +40,9 @@ php artisan db:seed
 ```
 
 8. Login with credential
-access login page at {bash_url}/login or {bash_url}/dashboard
+
 ```php
+access login page at {bash_url}/login or {bash_url}/dashboard
 $email = "tester@gmail.com";
 $password = "password";
 ```
